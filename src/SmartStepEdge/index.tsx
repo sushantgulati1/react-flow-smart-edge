@@ -18,13 +18,15 @@ SmartStepEdge.displayName = 'SmartStepEdge'
 export const stepEdgeFactory = ({
 	debounceTime,
 	gridRatio,
-	nodePadding
+	nodePadding,
+	filterNodesFn
 }: FactoryOptions) => {
 	const SmartStepEdge = smartEdgeFactory({
 		...StepConfiguration,
 		debounceTime,
 		gridRatio,
-		nodePadding
+		nodePadding,
+		filterNodesFn
 	})
 	SmartStepEdge.displayName = 'SmartStepEdge'
 	return SmartStepEdge

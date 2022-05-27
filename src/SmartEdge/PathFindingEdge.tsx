@@ -17,7 +17,14 @@ export type SmartEdgeOptions = {
 	debounceTime: number
 	nodePadding: number
 	gridRatio: number
+	filterNodesFn: FilterNodesFunction
 }
+
+export type FilterNodesFunction<T = unknown, S = unknown> = (
+	value: Node<T>,
+	index: number,
+	array: Node<T>[]
+) => S
 
 export type SmartEdgeAdvancedOptions = SmartEdgeOptions & {
 	fallback: EdgeComponent

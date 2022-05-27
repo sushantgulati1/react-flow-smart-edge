@@ -24,7 +24,8 @@ export const smartEdgeFactory = ({
 	gridRatio = 10,
 	drawEdge = svgDrawSmoothLinePath,
 	generatePath = pathfindingAStarDiagonal,
-	fallback = BezierEdge
+	fallback = BezierEdge,
+	filterNodesFn = () => true
 }: AdvancedFactoryOptions) => {
 	const options: SmartEdgeAdvancedOptions = {
 		debounceTime: toInteger(debounceTime),
@@ -32,12 +33,13 @@ export const smartEdgeFactory = ({
 		gridRatio: toInteger(gridRatio, 2),
 		drawEdge,
 		generatePath,
-		fallback
+		fallback,
+		filterNodesFn
 	}
 
 	if (debounceTime === 0) {
 		const RegularPathFindingEdge = memo((props: EdgeProps) => {
-			const storeNodes = useNodes()
+			const storeNodes = useNodes().filter(filterNodesFn)
 
 			return (
 				<PathFindingEdge {...props} storeNodes={storeNodes} options={options} />
@@ -49,7 +51,7 @@ export const smartEdgeFactory = ({
 	}
 
 	const DebouncedPathFindingEdge = memo((props: EdgeProps) => {
-		const storeNodes = useNodes()
+		const storeNodes = useNodes().filter(filterNodesFn)
 		const [debouncedProps, setDebouncedProps] = useState({
 			storeNodes,
 			...props
